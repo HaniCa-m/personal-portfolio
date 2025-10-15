@@ -4,12 +4,9 @@ export default function Header() {
   return (
     <header className="relative w-full min-h-[700px] flex flex-col items-center text-center px-4 sm:px-6 md:px-10">
 
-      {/* نوبار */}
       <div className="w-full justify-center pt-6 sm:pt-8 md:pt-10">
         <Navbar  />
       </div>
-
-      {/* متن اصلی */}
       <div className="flex-1 flex flex-col items-center justify-center mt-10 sm:mt-14 md:mt-16">
         <p className="text-[#E4ECFF] text-xs sm:text-sm tracking-[0.25em] uppercase mb-3 sm:mb-4">
           Where Design Meets Code
