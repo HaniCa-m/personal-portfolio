@@ -1,8 +1,8 @@
 export default function ProfileHighlights() {
   return (
-    <section className="my-24 mx-6 sm:mx-12 lg:mx-32 grid grid-cols-1 xl:grid-cols-2 gap-10">
-      {/* Left Side */}
-      <div className="relative inline-block w-full">
+    <section>
+      <div className="my-24 mx-6 sm:mx-12 lg:mx-32 grid grid-cols-1 xl:grid-cols-2 gap-10">
+        <div className="relative inline-block w-full">
         <img
           className="rounded-3xl border border-slate-900 block w-full h-auto"
           src="/public/img/image.png"
@@ -45,9 +45,7 @@ export default function ProfileHighlights() {
         <div className="hidden sm:block absolute bottom-[110px] sm:bottom-[150px] right-[30px] sm:right-[40px] w-24 sm:w-30 h-5 sm:h-7 bg-[#F6F056] rounded-b-full rounded-r-full"></div>
       </div>
 
-      {/* Right Side */}
-      <div className="grid grid-rows-2 gap-6">
-        {/* Top Box */}
+      <div className="grid grid-rows-2 sm:gap-6">
         <div className="relative w-full h-[200px] sm:h-[230px] rounded-3xl overflow-hidden border border-indigo-950 flex items-start justify-start px-5 sm:px-7 py-8 sm:py-12">
           <img
             src="/public/img/section input.png"
@@ -68,26 +66,26 @@ export default function ProfileHighlights() {
             Russia
           </span>
         </div>
-
-        {/* Bottom Box */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center w-full h-auto sm:h-[230px] rounded-3xl overflow-hidden border border-indigo-950 p-5 sm:p-0">
-          {/* Left Side */}
-          <div className="ml-0 sm:ml-7 text-center sm:text-left">
-            <p className="text-gray-300 mb-2 text-sm sm:text-base">I constantly try to improve</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center w-full sm:h-[230px] rounded-3xl overflow-hidden border border-indigo-950 p-5 sm:p-0">
+          <div className="ml-0 sm:ml-7 text-center mb-10 sm:mb-14 sm:text-left">
+            <p className="text-gray-300 mb-2 text-SM sm:text-base">Always learning, always evolving.</p>
             <h2 className="text-white text-2xl sm:text-4xl font-bold">My tech stack</h2>
           </div>
 
-          {/* Right Side */}
-          <div className="grid grid-cols-3 sm:grid-cols-2 gap-3 sm:gap-4">
-            <div className="bg-[#11122B] text-white p-3 sm:p-4 rounded-xl text-center">ReactJS</div>
-            <div className="bg-[#11122B] text-white p-3 sm:p-4 rounded-xl text-center">VueJS</div>
-            <div className="bg-[#11122B] text-white p-3 sm:p-4 rounded-xl text-center">Express</div>
-            <div className="bg-[#11122B] text-white p-3 sm:p-4 rounded-xl text-center">NuxtJS</div>
-            <div className="bg-[#11122B] text-white p-3 sm:p-4 rounded-xl text-center">Typescript</div>
-            <div className="bg-[#11122B] text-white p-3 sm:p-4 rounded-xl text-center">GraphQL</div>
+          <div className="grid grid-cols-3 sm:mr-7 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="bg-[#11122B] text-white p-3 sm:p-4 rounded-xl text-center -translate-y-10">ReactJs</div>
+            <div className="bg-[#11122B] text-white p-3 sm:p-4 rounded-xl text-center">JavaScript</div>
+            <div className="bg-[#11122B] text-white p-3 sm:p-4 rounded-xl text-center -translate-y-10">Typescript</div>
+            <div className="hidden sm:block bg-[#11122B] text-white p-3 sm:p-4 rounded-xl text-center">ReactJs</div>
+            <div className="bg-[#11122B] text-white p-3 sm:p-4 rounded-xl text-center -translate-y-10">Next.js</div>
+            <div className="bg-[#11122B] text-white p-3 sm:p-4 rounded-xl text-center">TailwindCSS</div>
+            <div className="bg-[#11122B] text-white p-3 sm:p-4 rounded-xl text-center -translate-y-10">Vite</div>
+            <div className="hidden sm:block bg-[#11122B] text-white p-3 sm:p-4 rounded-xl text-center">Typescript</div>
           </div>
         </div>
       </div>
+      </div>
+      
     </section>
   );
 }
