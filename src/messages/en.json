@@ -1,0 +1,102 @@
+{
+  "navbar": {
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "experience": "Experience",
+    "contact": "Contact"
+  },
+
+  "hero": {
+    "title": "Building modern web experiences",
+    "subtitle": "I design and build fast, scalable and visually engaging web applications using Next.js, TypeScript and modern UI systems.",
+    "cta": {
+      "projects": "View Projects",
+      "contact": "Contact Me"
+    }
+  },
+
+  "about": {
+  "title": "About Me",
+  "description": "I am a frontend developer focused on building modern, performant and scalable web applications. I love turning ideas into interactive experiences using Next.js, TypeScript and modern UI systems."
+},
+
+
+"projects": {
+  "title": "Featured Projects",
+  "subtitle": "Some of my recent work and experiments.",
+  "cta": {
+    "view": "View Project"
+  },
+  "items": {
+    "movie": {
+      "title": "Movie Platform",
+      "description": "A modern movie discovery app using TMDB API."
+    },
+    "law": {
+      "title": "Law Firm Website",
+      "description": "Corporate website with animations and CMS-ready structure."
+    },
+    "portfolio": {
+      "title": "Personal Portfolio",
+      "description": "Minimal and modern developer portfolio."
+    }
+  }
+},
+
+ "skills": {
+    "title": "Skills & Expertise",
+    "subtitle": "Technologies I use to build modern web applications",
+
+    "items": {
+      "nextjs": { "name": "Next.js" },
+      "typescript": { "name": "TypeScript" },
+      "react": { "name": "React" },
+      "tailwind": { "name": "TailwindCSS" },
+      "framer": { "name": "Framer Motion" },
+      "node": { "name": "Node.js" }
+    }
+  },
+
+   "experience": {
+    "title": "Experience",
+    "subtitle": "My professional journey so far",
+    "items": [
+      {
+        "role": "Frontend Developer",
+        "company": "Freelance",
+        "period": "2023 - Present",
+        "description": "Building modern web applications using Next.js, TypeScript and Tailwind CSS."
+      },
+      {
+        "role": "UI Developer",
+        "company": "Personal Projects",
+        "period": "2022 - 2023",
+        "description": "Developed multiple UI-heavy applications focusing on animations and UX."
+      },
+      {
+        "role": "Junior Developer",
+        "company": "Learning Phase",
+        "period": "2021 - 2022",
+        "description": "Started journey in web development with React and modern JavaScript."
+      }
+    ]
+  },
+
+   "contact": {
+    "title": "Get In Touch",
+    "subtitle": "Have a project in mind? Let's build something amazing together.",
+    "name": "Your Name",
+    "email": "Your Email",
+    "message": "Your Message",
+    "button": "Send Message"
+  },
+
+  "footer": {
+    "subtitle": "Frontend Developer passionate about modern web experiences.",
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Contact",
+    "rights": "All rights reserved."
+  }
+}
