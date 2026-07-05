@@ -1,0 +1,41 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+export default function useScrollSpy(
+  sectionIds: string[],
+  offset = 120
+) {
+  const [activeId, setActiveId] = useState(sectionIds[0] ?? "");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scroll = window.scrollY + offset;
+
+      let current = sectionIds[0] ?? "";
+
+      for (const id of sectionIds) {
+        const section = document.getElementById(id);
+
+        if (!section) continue;
+
+        if (scroll >= section.offsetTop) {
+          current = id;
+        }
+      }
+
+      setActiveId(current);
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () =>
+      window.removeEventListener("scroll", handleScroll);
+  }, [sectionIds, offset]);
+
+  return activeId;
+}
