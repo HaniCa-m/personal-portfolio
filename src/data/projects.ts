@@ -1,7 +1,8 @@
 export const projects = [
   {
-    id: "movie",
-    image: "/images/projects/FilmBin.png",
+    
+  id: "filmbin",
+  image: "/images/projects/FilmBin.png",
 
     tech: [
       "Next.js",
