@@ -116,12 +116,14 @@
 },
 
   "footer": {
-    "subtitle": "Frontend Developer passionate about modern web experiences.",
-    "about": "About",
-    "projects": "Projects",
-    "contact": "Contact",
-    "rights": "All rights reserved."
-  }
+  "subtitle": "Frontend Developer passionate about creating modern, fast and scalable web experiences.",
+  "navigation": "Navigation",
+  "connect": "Connect",
+  "about": "About",
+  "projects": "Projects",
+  "contact": "Contact",
+  "rights": "All rights reserved."
+}
 
 
 }
