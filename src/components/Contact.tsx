@@ -1,126 +1,327 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { Send } from "lucide-react";
+import { CheckCircle2, Send, XCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
+
+type FormState = {
+  name: string;
+  email: string;
+  message: string;
+};
+
+type ErrorState = {
+  name?: string;
+  email?: string;
+  message?: string;
+};
 
 export default function Contact() {
   const t = useTranslations("contact");
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormState>({
     name: "",
     email: "",
     message: "",
   });
 
-  return (
-    <section id="contact" className="py-28 px-6 relative">
+  const [errors, setErrors] = useState<ErrorState>({});
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<
+    "success" | "error" | null
+  >(null);
 
+  const validate = () => {
+    const newErrors: ErrorState = {};
+
+    const nameRegex = /^[\u0600-\u06FFa-zA-Z\s]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!form.name.trim()) {
+      newErrors.name = t("validation.nameRequired");
+    } else if (!nameRegex.test(form.name)) {
+      newErrors.name = t("validation.nameInvalid");
+    }
+
+    if (!form.email.trim()) {
+      newErrors.email = t("validation.emailRequired");
+    } else if (!emailRegex.test(form.email)) {
+      newErrors.email = t("validation.emailInvalid");
+    }
+
+    if (!form.message.trim()) {
+      newErrors.message = t("validation.messageRequired");
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (
+    e: React.FormEvent
+  ) => {
+    e.preventDefault();
+
+    if (!validate()) return;
+
+    try {
+      setLoading(true);
+      setStatus(null);
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error();
+      }
+
+      setStatus("success");
+
+      setForm({
+        name: "",
+        email: "",
+        message: "",
+      });
+
+      setErrors({});
+    } catch (error) {
+      console.error(error);
+      setStatus("error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <section
+      id="contact"
+      className="relative px-6 py-28"
+    >
       {/* Background Glow */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-[-20%] -translate-x-1/2 h-[450px] w-[450px] bg-primary/10 blur-[140px] rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-10%] h-[300px] w-[300px] bg-accent/10 blur-[120px] rounded-full" />
+        <div className="absolute left-1/2 top-[-20%] h-[450px] w-[450px] -translate-x-1/2 rounded-full bg-primary/10 blur-[140px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] h-[300px] w-[300px] rounded-full bg-accent/10 blur-[120px]" />
       </div>
 
-      <div className="max-w-3xl mx-auto text-center">
-
-        {/* Title */}
+      <div className="mx-auto max-w-3xl text-center">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl sm:text-4xl font-bold"
+          className="text-3xl font-bold sm:text-4xl"
         >
           {t("title")}
         </motion.h2>
 
-        <p className="text-muted-foreground mt-3 mb-10">
+        <p className="mb-10 mt-3 text-muted-foreground">
           {t("subtitle")}
         </p>
 
-        {/* Form Card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           className="
-            relative p-6 sm:p-8 rounded-2xl
+            relative
+            rounded-2xl
             border border-border
-            bg-background/50 backdrop-blur-xl
+            bg-background/60
+            p-6
             shadow-lg
+            backdrop-blur-xl
+            sm:p-8
           "
         >
-
           {/* Glow border effect */}
-          <div className="
-            absolute inset-0 rounded-2xl
-            opacity-0 hover:opacity-100
-            transition duration-500
-            bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10
-            blur-xl -z-10
-          " />
+          <div
+            className="
+              absolute inset-0
+              -z-10
+              rounded-2xl
+              bg-gradient-to-r
+              from-primary/10
+              via-accent/10
+              to-primary/10
+              opacity-0
+              blur-xl
+              transition duration-500
+              hover:opacity-100
+            "
+          />
 
-          <div className="space-y-4 text-left">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-5 text-left"
+          >
+            {[
+              {
+                key: "name",
+                type: "text",
+              },
+              {
+                key: "email",
+                type: "email",
+              },
+            ].map((item) => (
+              <div key={item.key}>
+                <input
+                  type={item.type}
+                  placeholder={t(item.key)}
+                  value={
+                    form[item.key as keyof FormState]
+                  }
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      [item.key]: e.target.value,
+                    })
+                  }
+                  className="
+                    w-full
+                    rounded-xl
+                    border border-border
+                    bg-background/70
+                    px-4 py-3
+                    transition
+                    focus:outline-none
+                    focus:ring-2
+                    focus:ring-primary/40
+                  "
+                />
 
-            {/* Name */}
-            <input
-              type="text"
-              placeholder={t("name")}
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="
-                w-full px-4 py-3 rounded-xl
-                bg-background/60 border border-border
-                focus:outline-none focus:ring-2 focus:ring-primary/40
-                transition
-              "
-            />
+                {errors[item.key as keyof ErrorState] && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors[item.key as keyof ErrorState]}
+                  </p>
+                )}
+              </div>
+            ))}
 
-            {/* Email */}
-            <input
-              type="email"
-              placeholder={t("email")}
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="
-                w-full px-4 py-3 rounded-xl
-                bg-background/60 border border-border
-                focus:outline-none focus:ring-2 focus:ring-primary/40
-                transition
-              "
-            />
+            <div>
+              <textarea
+                rows={5}
+                placeholder={t("message")}
+                value={form.message}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    message: e.target.value,
+                  })
+                }
+                className="
+                  w-full
+                  resize-none
+                  rounded-xl
+                  border border-border
+                  bg-background/70
+                  px-4 py-3
+                  transition
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-primary/40
+                "
+              />
 
-            {/* Message */}
-            <textarea
-              rows={5}
-              placeholder={t("message")}
-              value={form.message}
-              onChange={(e) => setForm({ ...form, message: e.target.value })}
-              className="
-                w-full px-4 py-3 rounded-xl
-                bg-background/60 border border-border
-                focus:outline-none focus:ring-2 focus:ring-primary/40
-                transition resize-none
-              "
-            />
+              {errors.message && (
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.message}
+                </p>
+              )}
+            </div>
 
-            {/* Button */}
             <button
+              type="submit"
+              disabled={loading}
               className="
-                group w-full flex items-center justify-center gap-2
-                py-3 rounded-xl
-                bg-primary text-primary-foreground
-                hover:opacity-90 transition
+                group
+                flex w-full
+                items-center justify-center
+                gap-2
+                rounded-xl
+                bg-primary
+                py-3
+                text-primary-foreground
+                transition
+                hover:opacity-90
+                disabled:opacity-60
               "
             >
-              {t("button")}
-              <Send className="h-4 w-4 group-hover:translate-x-1 transition" />
-            </button>
+              {loading
+                ? t("sending")
+                : t("button")}
 
-          </div>
+              {!loading && (
+                <Send className="h-4 w-4 transition group-hover:translate-x-1" />
+              )}
+            </button>
+          </form>
         </motion.div>
 
+        <AnimatePresence>
+          {status && (
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 20,
+                scale: 0.9,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.9,
+              }}
+              className="
+                mx-auto mt-8
+                max-w-md
+                rounded-2xl
+                border border-border
+                bg-background/80
+                p-5
+                shadow-xl
+                backdrop-blur-xl
+              "
+            >
+              {status === "success" ? (
+                <>
+                  <CheckCircle2 className="mx-auto mb-3 h-10 w-10 text-green-500" />
+
+                  <h3 className="text-lg font-bold">
+                    {t("success.title")}
+                  </h3>
+
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {t("success.description")}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <XCircle className="mx-auto mb-3 h-10 w-10 text-red-500" />
+
+                  <h3 className="text-lg font-bold">
+                    {t("error.title")}
+                  </h3>
+
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {t("error.description")}
+                  </p>
+                </>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
