@@ -24,22 +24,23 @@
 
 "projects": {
   "title": "Featured Projects",
-  "subtitle": "Some of my recent work and experiments.",
+  "subtitle": "Selected projects showcasing my frontend development skills.",
   "cta": {
-    "view": "View Project"
+    "live": "Visit Website",
+    "github": "GitHub"
   },
   "items": {
-    "movie": {
-      "title": "Movie Platform",
-      "description": "A modern movie discovery app using TMDB API."
+    "filmbin": {
+      "title": "FilmBin - Movie Platform",
+      "description": "A modern movie discovery platform built with Next.js, TypeScript and TMDB API."
     },
     "law": {
       "title": "Law Firm Website",
-      "description": "Corporate website with animations and CMS-ready structure."
+      "description": "A professional corporate website with modern UI, smooth animations and scalable architecture."
     },
     "portfolio": {
       "title": "Personal Portfolio",
-      "description": "Minimal and modern developer portfolio."
+      "description": "A modern bilingual developer portfolio built with Next.js, TypeScript and Tailwind CSS."
     }
   }
 },
