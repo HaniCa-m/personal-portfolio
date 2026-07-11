@@ -2,74 +2,189 @@
 
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
+
+import { projects } from "@/data/projects";
 
 export default function Projects() {
   const t = useTranslations("projects");
 
-  const projects = [
-    {
-      title: t("items.movie.title"),
-      description: t("items.movie.description"),
-      tech: ["Next.js", "TypeScript", "Tailwind"],
-      live: "#",
-    },
-    {
-      title: t("items.law.title"),
-      description: t("items.law.description"),
-      tech: ["Next.js", "Framer Motion"],
-      live: "#",
-    },
-    {
-      title: t("items.portfolio.title"),
-      description: t("items.portfolio.description"),
-      tech: ["Next.js", "i18n", "Tailwind"],
-      live: "#",
-    },
-  ];
-
   return (
-    <section id="projects" className="py-24 px-6">
-      <div className="max-w-6xl mx-auto">
+    <section id="projects" className="px-6 py-24">
+      <div className="mx-auto max-w-6xl">
 
         {/* Header */}
-        <div className="text-center mb-14">
-          <h2 className="text-3xl sm:text-4xl font-bold">
+        <div className="mb-14 text-center">
+          <h2 className="text-3xl font-bold sm:text-4xl">
             {t("title")}
           </h2>
-          <p className="text-muted-foreground mt-3">
+
+          <p className="mt-3 text-muted-foreground">
             {t("subtitle")}
           </p>
         </div>
 
-        {/* Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+        {/* Projects Grid */}
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+
           {projects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="p-6 rounded-xl border border-border bg-background/40"
+            <motion.article
+              key={project.id}
+              initial={{
+                opacity: 0,
+                y: 30,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{
+                once: true,
+              }}
+              transition={{
+                delay: index * 0.1,
+              }}
+              className="
+                card-hover
+                group
+                overflow-hidden
+                rounded-2xl
+                border
+                border-border
+                bg-background/50
+                backdrop-blur-xl
+              "
             >
-              <h3 className="text-xl font-semibold mb-2">
-                {project.title}
-              </h3>
 
-              <p className="text-muted-foreground text-sm mb-4">
-                {project.description}
-              </p>
+              {/* Image */}
+              <div className="relative aspect-video overflow-hidden">
 
-              <a
-                href={project.live}
-                className="inline-flex items-center gap-2 text-sm hover:text-primary"
-              >
-                <ExternalLink className="h-4 w-4" />
-                {t("cta.view")}
-              </a>
-            </motion.div>
+                <Image
+                  src={project.image}
+                  alt={t(
+                    `items.${project.id}.title`
+                  )}
+                  fill
+                  className="
+                    object-cover
+                    transition
+                    duration-500
+                    group-hover:scale-110
+                  "
+                />
+
+
+                {/* Overlay */}
+                <div
+                  className="
+                    absolute
+                    inset-0
+                    bg-gradient-to-t
+                    from-background/80
+                    via-transparent
+                    opacity-0
+                    transition
+                    duration-500
+                    group-hover:opacity-100
+                  "
+                />
+
+              </div>
+
+
+              {/* Content */}
+              <div className="p-6">
+
+                <h3 className="mb-2 text-xl font-semibold">
+                  {t(
+                    `items.${project.id}.title`
+                  )}
+                </h3>
+
+
+                <p className="mb-5 text-sm text-muted-foreground">
+                  {t(
+                    `items.${project.id}.description`
+                  )}
+                </p>
+
+
+                {/* Tech */}
+                <div className="mb-5 flex flex-wrap gap-2">
+
+                  {project.tech.map((item) => (
+                    <span
+                      key={item}
+                      className="
+                        rounded-full
+                        bg-primary/10
+                        px-3
+                        py-1
+                        text-xs
+                        text-primary
+                      "
+                    >
+                      {item}
+                    </span>
+                  ))}
+
+                </div>
+
+
+                {/* Links */}
+                <div className="flex items-center gap-4">
+
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="
+                        inline-flex
+                        items-center
+                        gap-2
+                        text-sm
+                        transition
+                        hover:text-primary
+                      "
+                    >
+                      <ExternalLink className="h-4 w-4" />
+
+                      {t("cta.live")}
+                    </a>
+                  )}
+
+
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="
+                        inline-flex
+                        items-center
+                        gap-2
+                        text-sm
+                        transition
+                        hover:text-primary
+                      "
+                    >
+                      <FaGithub className="h-4 w-4" />
+
+                      {t("cta.github")}
+                    </a>
+                  )}
+
+                </div>
+
+              </div>
+
+            </motion.article>
           ))}
+
         </div>
 
       </div>
