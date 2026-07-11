@@ -54,9 +54,17 @@ export default function About() {
             "UI Design",
           ].map((skill) => (
             <div
-              key={skill}
-              className="p-4 rounded-xl border border-border bg-background/40 backdrop-blur-md hover:bg-accent transition"
-            >
+  key={skill}
+  className="
+    card-hover
+    p-4
+    rounded-xl
+    border
+    border-border
+    bg-card/60
+    backdrop-blur-md
+  "
+>
               <div className="flex items-center gap-2 text-sm">
                 <Code2 className="h-4 w-4" />
                 {skill}
