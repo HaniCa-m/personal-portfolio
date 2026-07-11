@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { CheckCircle2, Send, XCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 
 type FormState = {
   name: string;
@@ -20,6 +21,10 @@ type ErrorState = {
 export default function Contact() {
   const t = useTranslations("contact");
 
+  const locale = useLocale();
+
+  const isRTL = locale === "fa";
+
   const [form, setForm] = useState<FormState>({
     name: "",
     email: "",
@@ -28,9 +33,7 @@ export default function Contact() {
 
   const [errors, setErrors] = useState<ErrorState>({});
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<
-    "success" | "error" | null
-  >(null);
+  const [status, setStatus] = useState<"success" | "error" | null>(null);
 
   const validate = () => {
     const newErrors: ErrorState = {};
@@ -59,9 +62,7 @@ export default function Contact() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent
-  ) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validate()) return;
@@ -102,10 +103,7 @@ export default function Contact() {
   };
 
   return (
-    <section
-      id="contact"
-      className="relative px-6 py-28"
-    >
+    <section id="contact" className="relative px-6 py-28">
       {/* Background Glow */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-[-20%] h-[450px] w-[450px] -translate-x-1/2 rounded-full bg-primary/10 blur-[140px]" />
@@ -122,9 +120,7 @@ export default function Contact() {
           {t("title")}
         </motion.h2>
 
-        <p className="mb-10 mt-3 text-muted-foreground">
-          {t("subtitle")}
-        </p>
+        <p className="mb-10 mt-3 text-muted-foreground">{t("subtitle")}</p>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -160,7 +156,8 @@ export default function Contact() {
 
           <form
             onSubmit={handleSubmit}
-            className="space-y-5 text-left"
+            className={`space-y-5 ${isRTL ? "text-right" : "text-left"}`}
+            dir={isRTL ? "rtl" : "ltr"}
           >
             {[
               {
@@ -174,11 +171,9 @@ export default function Contact() {
             ].map((item) => (
               <div key={item.key}>
                 <input
-                  type={item.type}
+                  type={item.key === "email" ? "text" : "text"}
                   placeholder={t(item.key)}
-                  value={
-                    form[item.key as keyof FormState]
-                  }
+                  value={form[item.key as keyof FormState]}
                   onChange={(e) =>
                     setForm({
                       ...form,
@@ -232,9 +227,7 @@ export default function Contact() {
               />
 
               {errors.message && (
-                <p className="mt-1 text-sm text-red-500">
-                  {errors.message}
-                </p>
+                <p className="mt-1 text-sm text-red-500">{errors.message}</p>
               )}
             </div>
 
@@ -255,9 +248,7 @@ export default function Contact() {
                 disabled:opacity-60
               "
             >
-              {loading
-                ? t("sending")
-                : t("button")}
+              {loading ? t("sending") : t("button")}
 
               {!loading && (
                 <Send className="h-4 w-4 transition group-hover:translate-x-1" />
@@ -298,9 +289,7 @@ export default function Contact() {
                 <>
                   <CheckCircle2 className="mx-auto mb-3 h-10 w-10 text-green-500" />
 
-                  <h3 className="text-lg font-bold">
-                    {t("success.title")}
-                  </h3>
+                  <h3 className="text-lg font-bold">{t("success.title")}</h3>
 
                   <p className="mt-2 text-sm text-muted-foreground">
                     {t("success.description")}
@@ -310,9 +299,7 @@ export default function Contact() {
                 <>
                   <XCircle className="mx-auto mb-3 h-10 w-10 text-red-500" />
 
-                  <h3 className="text-lg font-bold">
-                    {t("error.title")}
-                  </h3>
+                  <h3 className="text-lg font-bold">{t("error.title")}</h3>
 
                   <p className="mt-2 text-sm text-muted-foreground">
                     {t("error.description")}
